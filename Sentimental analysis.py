@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd 
 import re
 import nltk 
+import pickle
 import matplotlib.pyplot as plt
 %matplotlib inline
 
@@ -33,8 +34,11 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(processed_features, labels, test_size=0.18, random_state=0)
 
 from sklearn.ensemble import RandomForestClassifier
-text_classifier = RandomForestClassifier(n_estimators=200, random_state=0)
-text_classifier.fit(X_train, y_train)
-predictions = text_classifier.predict(X_test)
+model =RandomForestClassifier(n_estimator=200,fit_intercept=true,random_state=0)
+model.fit(X_train, y_train)
+predictions = model.predict(X_test)
+pkl_filename = "pickle_model.pkl"
+with open(pkl_filename, 'wb') as file:
+    pickle.dump(model, file)
 from sklearn.metrics import accuracy_score
 print(accuracy_score(y_test, predictions))
