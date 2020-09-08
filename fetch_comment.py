@@ -11,7 +11,7 @@ def pretty_print(data):
 """
 INSERT YOUR OWN API KEY HERE
 """
-api_key = "AIzaSyBHnforGaIV0YS8w3ZDzWlrHKpi1xE2hTA"
+api_key = ""
 
 
 
