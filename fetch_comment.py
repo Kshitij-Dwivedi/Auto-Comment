@@ -1,6 +1,6 @@
 
 import googleapiclient.discovery
-
+import pandas as pd
 import json 
 
 def pretty_print(data): 
@@ -11,7 +11,7 @@ def pretty_print(data):
 """
 INSERT YOUR OWN API KEY HERE
 """
-api_key = ""
+api_key = "AIzaSyBHnforGaIV0YS8w3ZDzWlrHKpi1xE2hTA"
 
 
 
@@ -27,7 +27,10 @@ INSERT VIDEO ID HERE
 request = youtube.commentThreads().list(part="snippet,replies",videoId="ZvpdN4VltKY")
 
 response = request.execute()
-
+comments = []
 # print(pretty_print(response["items"][0]))
 for i in range(20):
-    print(i+1,"->",response["items"][i]["snippet"]["topLevelComment"]["snippet"]["textDisplay"])
+    comments.append(response["items"][i]["snippet"]["topLevelComment"]["snippet"]["textDisplay"])
+
+df = pd.DataFrame(comments)
+df.to_csv("./comments.csv")

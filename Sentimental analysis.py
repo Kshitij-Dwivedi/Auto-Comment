@@ -4,7 +4,6 @@ import re
 import nltk 
 import pickle
 import matplotlib.pyplot as plt
-%matplotlib inline
 
 data_source_url = "https://raw.githubusercontent.com/kolaveridi/kaggle-Twitter-US-Airline-Sentiment-/master/Tweets.csv"
 tweets = pd.read_csv(data_source_url)
@@ -34,9 +33,11 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(processed_features, labels, test_size=0.18, random_state=0)
 
 from sklearn.ensemble import RandomForestClassifier
-model =RandomForestClassifier(n_estimator=200,fit_intercept=true,random_state=0)
+model =RandomForestClassifier()
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
+print(type(X_test))
+print(X_test)
 pkl_filename = "pickle_model.pkl"
 with open(pkl_filename, 'wb') as file:
     pickle.dump(model, file)
