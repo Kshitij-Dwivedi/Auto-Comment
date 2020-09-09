@@ -6,9 +6,9 @@ import pickle
 import matplotlib.pyplot as plt
 
 data_source_url = "https://raw.githubusercontent.com/kolaveridi/kaggle-Twitter-US-Airline-Sentiment-/master/Tweets.csv"
-tweets = pd.read_csv(data_source_url)
-features = tweets.iloc[:, 10].values
-labels = tweets.iloc[:, 1].values
+comments = pd.read_csv(data_source_url)
+features = comments.iloc[:, 10].values
+labels = comments.iloc[:, 1].values
 processed_features = []
 
 for sentence in range(0, len(features)):
@@ -33,7 +33,7 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(processed_features, labels, test_size=0.18, random_state=0)
 
 from sklearn.ensemble import RandomForestClassifier
-model =RandomForestClassifier()
+model =RandomForestClassifier(n_estimator=200,random_state=0)
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
 print(type(X_test))
