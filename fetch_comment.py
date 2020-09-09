@@ -6,7 +6,7 @@ from collections import defaultdict
 def pretty_print(data): 
 
     data = data
-    print(json.dumps(data, indent = 5) )
+    print(json.dumps(data, indent = 5) ) 
 
 """
 INSERT YOUR OWN API KEY HERE
