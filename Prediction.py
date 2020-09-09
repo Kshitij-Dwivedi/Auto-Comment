@@ -14,9 +14,9 @@ print(X_predict)
 
 with open(pkl_filename, 'rb') as file:
     model = pickle.load(file)
-data_source="x.csv"    
+data_source=df    
 comments = pd.read_csv(data_source)
-comments = comments.iloc[:, waiting].values    
+comments = comments.iloc[:,1].values    
 processed_comments = []
 # Almost copy-pasted part from line 15 to 28. Removing emojis and other useless information
 for sentence in range(0, len(comments)):
