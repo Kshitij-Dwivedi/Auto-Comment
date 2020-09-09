@@ -6,17 +6,13 @@ from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 pkl_filename = "pickle_model.pkl"
 
-df = pd.read_csv("./comments.csv")
-print(df)
 
-X_predict = list(df["0"])
-print(X_predict)
 
 with open(pkl_filename, 'rb') as file:
     model = pickle.load(file)
-data_source="x.csv"    
+data_source="./comments.csv"    
 comments = pd.read_csv(data_source)
-comments = comments.iloc[:, waiting].values    
+comments = comments.iloc[:, 1].values    
 processed_comments = []
 # Almost copy-pasted part from line 15 to 28. Removing emojis and other useless information
 for sentence in range(0, len(comments)):
@@ -36,6 +32,6 @@ for sentence in range(0, len(comments)):
     
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-to_vector = TfidfVectorizer (max_features=2500, min_df=7, max_df=0.8, stop_words=stopwords.words('english'))
+to_vector = TfidfVectorizer (max_features=2500, min_df=2, max_df=4, stop_words=stopwords.words('english'))
 X_predict = to_vector.fit_transform(processed_comments).toarray()
 Y_predict=model.predict(X_predict)
