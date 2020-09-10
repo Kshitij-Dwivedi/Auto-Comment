@@ -7,15 +7,16 @@ import pandas as pd
 pkl_filename = "pickle_model.pkl"
 
 df = pd.read_csv("./comments.csv")
-print(df)
+# print(df)
 
 X_predict = list(df["0"])
-print(X_predict)
+# print(X_predict)
 
-with open(pkl_filename, 'rb') as file:
-    model = pickle.load(file)
-data_source=df    
-comments = pd.read_csv(data_source)
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+model, vectorize=pickle.load(open(pkl_filename, 'rb'))  
+#data_source=df    
+comments = df #pd.read_csv(data_source)
 comments = comments.iloc[:,1].values    
 processed_comments = []
 # Almost copy-pasted part from line 15 to 28. Removing emojis and other useless information
@@ -33,9 +34,6 @@ for sentence in range(0, len(comments)):
     # Converting to Lowercase
     being_processed = being_processed.lower()
     processed_comments.append(being_processed)
-    
-from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import TfidfVectorizer
-to_vector = TfidfVectorizer (max_features=2500, min_df=7, max_df=0.8, stop_words=stopwords.words('english'))
-X_predict = to_vector.fit_transform(processed_comments).toarray()
+X_predict = vectorize.transform(processed_comments).toarray()
 Y_predict=model.predict(X_predict)
+print(Y_predict)
