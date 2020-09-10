@@ -5,10 +5,10 @@ import nltk
 import pickle
 # import matplotlib.pyplot as plt
 
-data_source = "training.1600000.nonprocessed.noemoticon.csv"
+data_source = "allcomments.csv"
 comments = pd.read_csv(data_source)
-features = comments.iloc[792000:808000, 5].values
-labels = comments.iloc[792000:808000, 0].values
+features = comments.iloc[:, 5].values
+labels = comments.iloc[:, 0].values
 processed_features = []
 for sentence in range(0, len(features)):
     # Remove all the special characters
