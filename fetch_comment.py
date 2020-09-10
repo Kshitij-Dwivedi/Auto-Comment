@@ -1,12 +1,12 @@
-
 import googleapiclient.discovery
 import pandas as pd
 import json 
-
+from collections import defaultdict
+# Debug purpose
 def pretty_print(data): 
-      
+
     data = data
-    print(json.dumps(data, indent = 10) )
+    print(json.dumps(data, indent = 5) ) 
 
 """
 INSERT YOUR OWN API KEY HERE
@@ -14,23 +14,47 @@ INSERT YOUR OWN API KEY HERE
 api_key = "AIzaSyBHnforGaIV0YS8w3ZDzWlrHKpi1xE2hTA"
 
 
-
 api_service_name = "youtube"
 api_version = "v3"
 DEVELOPER_KEY = api_key
 
-youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = DEVELOPER_KEY)
+def fetch(videoId,already_replied_comments_id,maxResults = 20):
+    comments = []   # Stores string of comments
+    comments_id = []  # Stores the id's of comments 
+    # Creating the connection
+    youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = DEVELOPER_KEY)
 
-"""
-INSERT VIDEO ID HERE
-"""
-request = youtube.commentThreads().list(part="snippet,replies",videoId="ZvpdN4VltKY")
+    # Add parameter maxResults = [1,100] and default value is 20
+    # Requesting comments from youtube video with videoID
+    request = youtube.commentThreads().list(part="snippet,replies",videoId=videoId,maxResults = maxResults)
 
-response = request.execute()
-comments = []
-# print(pretty_print(response["items"][0]))
-for i in range(20):
-    comments.append(response["items"][i]["snippet"]["topLevelComment"]["snippet"]["textDisplay"])
+    response = request.execute()
 
-df = pd.DataFrame(comments)
-df.to_csv("./comments.csv")
+    for i in range(maxResults):
+        comments.append(response["items"][i]["snippet"]["topLevelComment"]["snippet"]["textDisplay"])
+        comments_id.append(response["items"][i]["id"])
+
+    return comments, comments_id # May be use zip here
+
+
+def save_for_sentiment(comments_id,comments,flags):
+    # flags -> boolean array -> [True, False, True, True, False] -> At ith index True denotes this comment is about to be replied.
+    
+    framed = {"flag": flags,"comments_id": comments_id, "comments": comments}
+
+    df = pd.DataFrame(framed)
+    # Save the temporary dataframe to comments.csv
+    df.to_csv("./comments.csv")
+
+
+
+def check_repitition(about_to_reply_comments_id,already_replied_comments_id):
+    length = len(about_to_reply_comments_id)
+    flag = [True] * length # Currently all about to reply are not already replied.
+    already_replied_comments_id_dict = defaultdict(bool)
+    for i in range(length):
+        if(already_replied_comments_id_dict[about_to_reply_comments_id[i]]):
+            flag[i] = False
+    return flag
+
+

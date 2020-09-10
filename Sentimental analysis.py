@@ -27,7 +27,7 @@ for sentence in range(0, len(features)):
     processed_features.append(processed_feature)
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer = TfidfVectorizer (max_features=2500, min_df=7, max_df=0.8, stop_words=stopwords.words('english'))
+vectorizer = TfidfVectorizer (max_features=2500, min_df=4, max_df=0.8, stop_words=stopwords.words('english'))
 processed_features = vectorizer.fit_transform(processed_features).toarray()
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(processed_features, labels, test_size=0.18, random_state=0)
