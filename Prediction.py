@@ -8,11 +8,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 
 
+
 def predict(flags):
     pkl_filename = "pickle_model.pkl"
 
     with open(pkl_filename, 'rb') as file:
-        model = pickle.load(file)    
+        model, vectorize=pickle.load(open(pkl_filename, 'rb'))    
     comments = pd.read_csv("./comments.csv")
     comments = comments.iloc[:, 1].values    
     processed_comments = []
@@ -32,9 +33,7 @@ def predict(flags):
         being_processed = being_processed.lower()
         processed_comments.append(being_processed)
         
-    
-    to_vector = TfidfVectorizer (max_features=2500, min_df=2, max_df=4, stop_words=stopwords.words('english'))
-    X_predict = to_vector.fit_transform(processed_comments).toarray()
+    X_predict = to_vector.transform(processed_comments).toarray()
     Y_predict=model.predict(X_predict)
 
 
