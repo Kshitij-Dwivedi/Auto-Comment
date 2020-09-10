@@ -7,7 +7,7 @@ import pickle
 
 data_source = "allcomments.csv"
 comments = pd.read_csv(data_source)
-features = comments.iloc[:, 5].values
+features = comments.iloc[:, 1].values
 labels = comments.iloc[:, 0].values
 processed_features = []
 for sentence in range(0, len(features)):
