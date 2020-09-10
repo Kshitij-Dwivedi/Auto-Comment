@@ -3,7 +3,7 @@ import pandas as pd
 import re
 import nltk 
 import pickle
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 data_source_url = "https://raw.githubusercontent.com/kolaveridi/kaggle-Twitter-US-Airline-Sentiment-/master/Tweets.csv"
 comments = pd.read_csv(data_source_url)
@@ -33,13 +33,12 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(processed_features, labels, test_size=0.18, random_state=0)
 
 from sklearn.ensemble import RandomForestClassifier
-model =RandomForestClassifier(n_estimator=200,random_state=0)
+model =RandomForestClassifier(random_state=0)
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
 print(type(X_test))
-print(X_test)
+tuple_objects = (model, vectorizer) 
 pkl_filename = "pickle_model.pkl"
-with open(pkl_filename, 'wb') as file:
-    pickle.dump(model, file)
+pickle.dump(tuple_objects, open(pkl_filename, 'wb'))    
 from sklearn.metrics import accuracy_score
 print(accuracy_score(y_test, predictions))
