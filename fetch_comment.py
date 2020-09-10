@@ -34,14 +34,12 @@ def fetch(videoId,already_replied_comments_id,maxResults = 20):
         comments.append(response["items"][i]["snippet"]["topLevelComment"]["snippet"]["textDisplay"])
         comments_id.append(response["items"][i]["id"])
 
-    return comments, comments_id
+    return comments, comments_id # May be use zip here
 
 
 def save_for_sentiment(comments_id,comments,flags):
     # flags -> boolean array -> [True, False, True, True, False] -> At ith index True denotes this comment is about to be replied.
     
-
-
     framed = {"flag": flags,"comments_id": comments_id, "comments": comments}
 
     df = pd.DataFrame(framed)
