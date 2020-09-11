@@ -11,16 +11,16 @@ def pretty_print(data):
 """
 INSERT YOUR OWN API KEY HERE
 """
-api_key = "AIzaSyBHnforGaIV0YS8w3ZDzWlrHKpi1xE2hTA"
+api_key = "AIzaSyA6X1hzlXG_tP_J4XqojgjEHZkztPnwcwY"
 
 
 api_service_name = "youtube"
 api_version = "v3"
 DEVELOPER_KEY = api_key
 
-def fetch(videoId,already_replied_comments_id,maxResults = 20):
+def fetch(videoId,already_replied_comments_id,maxResults = 5):
     comments = []   # Stores string of comments
-    comments_id = []  # Stores the id's of comments 
+    comments_id = []  # Stores the id's of comments
     # Creating the connection
     youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = DEVELOPER_KEY)
 
@@ -44,7 +44,7 @@ def save_for_sentiment(comments_id,comments,flags):
 
     df = pd.DataFrame(framed)
     # Save the temporary dataframe to comments.csv
-    df.to_csv("./comments.csv")
+    df.to_csv("./comments.csv",index = False)
 
 
 
@@ -52,6 +52,8 @@ def check_repitition(about_to_reply_comments_id,already_replied_comments_id):
     length = len(about_to_reply_comments_id)
     flag = [True] * length # Currently all about to reply are not already replied.
     already_replied_comments_id_dict = defaultdict(bool)
+    for i in already_replied_comments_id:
+        already_replied_comments_id_dict[i] = True
     for i in range(length):
         if(already_replied_comments_id_dict[about_to_reply_comments_id[i]]):
             flag[i] = False
