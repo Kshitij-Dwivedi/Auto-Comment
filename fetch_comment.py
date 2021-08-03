@@ -18,7 +18,7 @@ api_service_name = "youtube"
 api_version = "v3"
 DEVELOPER_KEY = api_key
 
-def fetch(videoId,already_replied_comments_id,maxResults = 5):
+def fetch(videoId,already_replied_comments_id,maxResults = 10):
     comments = []   # Stores string of comments
     comments_id = []  # Stores the id's of comments
     # Creating the connection
