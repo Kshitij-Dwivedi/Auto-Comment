@@ -17,8 +17,7 @@ def reply(comments,comments_id,flags):
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(client_secrets_file, scopes)
     credentials = flow.run_console()
     youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
-    print(comments)
-    converse = {0: "Thanks", 4: "Apology"}
+    converse = {0: "Apology", 4: "Thanks"}
     for i in range(len(flags)):
         
         if(flags[i]):
